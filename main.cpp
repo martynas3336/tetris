@@ -36,10 +36,7 @@ void game()
     bool paused = true;
     bool gameStatus = true;
 
-
-
     bool figureSpawned = false;
-
     Field field;
     field.refreshFieldMatrix();
     field.fetchField();
@@ -57,7 +54,6 @@ void game()
     stats1.fetchGameStatus();
 
     stats1.fetchMessages();
-
 
     Stats2 stats2;
 
@@ -80,8 +76,6 @@ void game()
 
     stats3.readScores();
     stats3.fetchTop5();
-
-
 
     Figure figure(0);
 
@@ -110,7 +104,37 @@ void game()
             }
             if(GetAsyncKeyState(VK_RETURN)&1)
             {
-                break;
+                delay = startingDelay;
+                responsiveDelay = startingDelay;
+
+                paused = true;
+                gameStatus = true;
+                figureSpawned = false;
+
+                field.refreshFieldMatrix();
+                field.refreshOldFigureMatrix();
+                field.refreshNewFigureMatrix();
+                field.setGameStatus(gameStatus);
+                field.fetchField();
+
+                stats2.clearLevel();
+                stats2.setLevel(1);
+                stats2.fetchLevel();
+
+                stats2.clearScore();
+                stats2.setScore(0);
+                stats2.fetchScore();
+
+                stats2.clearSpeed();
+                stats2.setSpeed(100/delay);
+                stats2.fetchSpeed();
+
+                stats2.clearResponsiveSpeed();
+                stats2.setResponsiveSpeed(0);
+                stats2.fetchResponsiveSpeed();
+
+                stats3.readScores();
+                stats3.fetchTop5();
             }
         } else {
             if(!paused)
@@ -124,7 +148,9 @@ void game()
                     if(field.checkFigureGoDown(&figure))
                     {
                         figure.goDown();
-                        field.fetchFigure(&figure);
+
+                        field = field << &figure;
+//                        field.fetchFigure(&figure);
                     } else {
                         field^(&figure);
 
@@ -204,7 +230,8 @@ void game()
                             if(field.checkFigureRotateRight(&figure))
                             {
                                 figure.rotateRight();
-                                field.fetchFigure(&figure);
+                                field = field << &figure;
+//                                field.fetchFigure(&figure);
                             }
                         }
 
@@ -214,7 +241,8 @@ void game()
                             if(field.checkFigureGoLeft(&figure))
                             {
                                 figure.goLeft();
-                                field.fetchFigure(&figure);
+                                field = field << &figure;
+//                                field.fetchFigure(&figure);
                             }
                         }
 
@@ -224,7 +252,8 @@ void game()
                             if(field.checkFigureGoRight(&figure))
                             {
                                 figure.goRight();
-                                field.fetchFigure(&figure);
+                                field = field << &figure;
+//                                field.fetchFigure(&figure);
                             }
                         }
 
@@ -266,12 +295,6 @@ void game()
             Sleep(1);
         }
     }
-    try {
-        game();
-    } catch(const std::exception& err){
-        std::cout << "ERROR" << std::endl;
-    }
-
 }
 
 

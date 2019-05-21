@@ -267,10 +267,20 @@ void Stats2::setNextFigureForm(int i, int j, int value)
 
 
 // FETCH
+void Stats2::clearLevel()
+{
+    fetch(this->x, this->y+1, "         ");
+}
+
 void Stats2::fetchLevel()
 {
     fetch(this->x,this->y, "Level:");
     fetch(this->x,this->y+1, this->level);
+}
+
+void Stats2::clearScore()
+{
+    fetch(this->x, this->y+3, "         ");
 }
 
 void Stats2::fetchScore()
@@ -279,10 +289,20 @@ void Stats2::fetchScore()
     fetch(this->x, this->y+3, this->score);
 }
 
+void Stats2::clearSpeed()
+{
+    fetch(this->x, this->y+5, "         ");
+}
+
 void Stats2::fetchSpeed()
 {
     fetch(this->x, this->y+4, "Speed:");
     fetch(this->x, this->y+5, this->speed);
+}
+
+void Stats2::clearResponsiveSpeed()
+{
+    fetch(this->x, this->y+7, "         ");
 }
 
 void Stats2::fetchResponsiveSpeed()

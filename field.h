@@ -6,8 +6,8 @@ class Field {
     private:
         int y;
         int x;
-        int width;
         int height;
+        int width;
 
         int matrix[100][100];
         int oldFigureMatrix[100][100];
@@ -37,7 +37,10 @@ class Field {
         // SPAWN FIGURE OPERATOR
         friend Field operator+(Field field, Figure *figure);
 
-        void fetchFigure(Figure *figure);
+        // FETCH FIGURE
+        friend Field operator<<(Field field, Figure *figure);
+
+//        void fetchFigure(Figure *figure);
         // STICK FIGURE OPERATOR
         void operator^(Figure *figure);
 
@@ -56,7 +59,13 @@ class Field {
         int getHeight();
         int getWidth();
 
+        char getOngoingBlock();
+
         bool getGameStatus();
+
+        void setGameStatus(bool status);
+        void setNewFigureMatrix(int i, int j, int value);
+        void setOldFigureMatrix(int i, int j, int value);
 
 };
 #endif

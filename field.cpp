@@ -245,23 +245,23 @@ Field operator+(Field field, Figure *figure)
 }
 
 // FETCH FIGURE TO SCREEN REMOVING TRACKS AT THE SAME TIME
-void Field::fetchFigure(Figure *figure)
+Field operator<<(Field field, Figure *figure)
 {
 
-    this->refreshNewFigureMatrix();
+    field.refreshNewFigureMatrix();
     for(int i = 0; i < 4; i++)
     {
         for(int j = 0; j < 4; j++)
         {
             if(i+figure->getY() >= 0 && j+figure->getX() >= 0)
             {
-                this->newFigureMatrix[i+figure->getY()][j+figure->getX()] = figure->getFormShadowValue(i, j);
+                field.setNewFigureMatrix(i+figure->getY(),j+figure->getX(), figure->getFormShadowValue(i, j));
             }
         }
     }
 
 
-    this->clean();
+    field.clean();
 
     for(int i = 0; i < 4; i++)
     {
@@ -269,21 +269,24 @@ void Field::fetchFigure(Figure *figure)
         {
             if(figure->getFormShadowValue(i, j) && i+(figure->getY()) >= 0)
             {
-                fetch(j+(figure->getX()) + this->x, i+(figure->getY()) + this->y, this->ongoingBlock);
+                fetch(j+(figure->getX()) + field.getX(), i+(figure->getY()) + field.getY(), field.getOngoingBlock());
             }
         }
     }
-    this->refreshOldFigureMatrix();
+
+    field.refreshOldFigureMatrix();
     for(int i = 0; i < 4; i++)
     {
         for(int j = 0; j < 4; j++)
         {
             if(i+figure->getY() >= 0 && j+figure->getX() >= 0)
             {
-                this->oldFigureMatrix[i+figure->getY()][j+figure->getX()] = figure->getFormShadowValue(i, j);
+                field.setOldFigureMatrix(i+figure->getY(),j+figure->getX(), figure->getFormShadowValue(i, j));
             }
         }
     }
+
+    return field;
 }
 
 // STICK THIS FIGURE THE THE MATRIX
@@ -424,7 +427,26 @@ int Field::getWidth()
     return this->width;
 }
 
+char Field::getOngoingBlock()
+{
+    return this->ongoingBlock;
+}
+
 bool Field::getGameStatus()
 {
     return this->gameStatus;
+}
+void Field::setGameStatus(bool status)
+{
+    this->gameStatus = status;
+}
+
+void Field::setNewFigureMatrix(int i, int j, int value)
+{
+    this->newFigureMatrix[i][j] = value;
+}
+
+void Field::setOldFigureMatrix(int i, int j, int value)
+{
+    this->oldFigureMatrix[i][j] = value;
 }

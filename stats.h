@@ -79,10 +79,18 @@ class Stats2 : public Stats
         void setResponsiveSpeed(float responsiveSpeed);
         void setNextFigureForm(int i, int j, int value);
 
+        void clearLevel();
         void fetchLevel();
+
+        void clearScore();
         void fetchScore();
+
+        void clearSpeed();
         void fetchSpeed();
+
+        void clearResponsiveSpeed();
         void fetchResponsiveSpeed();
+
         void fetchNextFigureForm();
 
         int getY();
